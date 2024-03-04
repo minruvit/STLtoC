@@ -1,17 +1,18 @@
 /* If necessary, change the data type. */
+/* Reference : https://en.cppreference.com/w/cpp/container/queue */
 
 /// Including header
 #include <stdlib.h>     // include for malloc, free
 
 
 /// Structure definition
-// struct for elements in queue.
+// structure for elements in queue.
 typedef struct queueElement {
     int data;
     struct queueElement* nextElement;
 } queueElement;
 
-// struct for queue.
+// structure for queue.
 typedef struct queue {
     unsigned int size;
     queueElement* head;
@@ -22,13 +23,13 @@ typedef struct queue {
 /// Function declaration
 queue* makeQueue();
 void deleteQueue(queue*);
-int queueFront(queue const * const);
-int queueBack(queue const * const);
-int queueEmpty(queue const * const);
-int queueSize(queue const * const);
-void queuePush(queue * const, int const);
-void queuePop(queue * const);
-void queueSwap(queue const **, queue const **);
+int frontQueue(queue const * const);
+int backQueue(queue const * const);
+int emptyQueue(queue const * const);
+int sizeQueue(queue const * const);
+void pushQueue(queue * const, int const);
+void popQueue(queue * const);
+void swapQueue(queue const **, queue const **);
 
 
 /// Make queue
@@ -45,7 +46,7 @@ queue* makeQueue() {
 /// Delete queue
 void deleteQueue(queue* que) {
     while(que->size)
-        queuePop(que);
+        popQueue(que);
     free(que->head);
     free(que);
 
@@ -65,18 +66,18 @@ int queueBack(queue const * const que) {
 
 /// Capacity
 // empty
-int queueEmpty(queue const * const que) {
+int emptyQueue(queue const * const que) {
     return que->size == 0 ? 1 : 0;
 }
 
 // size
-int queueSize(queue const * const que) {
+int sizeQueue(queue const * const que) {
     return que->size;
 }
 
 /// Modifiers
 // push
-void queuePush(queue * const que, int const value) {
+void pushQueue(queue * const que, int const value) {
     queueElement* newElement = (queueElement*)malloc(sizeof(queueElement));
     newElement->data = value;
     newElement->nextElement = NULL;
@@ -88,7 +89,7 @@ void queuePush(queue * const que, int const value) {
 }
 
 // pop
-void queuePop(queue * const que) {
+void popQueue(queue * const que) {
     if(!que->size)  return;
     queueElement* temp = que->head->nextElement;
     que->head->nextElement = que->head->nextElement->nextElement;
@@ -99,10 +100,10 @@ void queuePop(queue * const que) {
 }
 
 // swap (C++11)
-void queueSwap(queue const ** pQue1, queue const ** pQue2) {
-    queue* temp = *pQue1;
-    *pQue1 = *pQue2;
-    *pQue2 = temp;
+void swapQueue(queue const ** pQue_1, queue const ** pQue_2) {
+    queue* temp = *pQue_1;
+    *pQue_1 = *pQue_2;
+    *pQue_2 = temp;
 
     return;
 }
