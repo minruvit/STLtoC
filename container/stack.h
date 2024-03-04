@@ -1,17 +1,18 @@
 /* If necessary, change the data type. */
+/* Reference : https://en.cppreference.com/w/cpp/container/stack */
 
 /// Including header
 #include <stdlib.h>     // include for malloc, free
 
 
 /// Structure definition
-// struct for elements in stack.
+// structure for elements in stack.
 typedef struct stackElement {
     int data;
     struct stackElement* prevElement;
 } stackElement;
 
-// struct for stack.
+// structure for stack.
 typedef struct stack {
     unsigned int size;
     stackElement* topElement;
@@ -21,12 +22,12 @@ typedef struct stack {
 /// Function declaration
 stack* makeStack();
 void deleteStack(stack*);
-int stackTop(stack const * const);
-int stackEmpty(stack const * const);
-int stackSize(stack const * const);
-void stackPush(stack * const, int const);
-void stackPop(stack * const);
-void stackSwap(stack const **, stack const **);
+int topStack(stack const * const);
+int emptyStack(stack const * const);
+int sizeStack(stack const * const);
+void pushStack(stack * const, int const);
+void popStack(stack * const);
+void swapStack(stack const **, stack const **);
 
 
 /// Make stack
@@ -41,7 +42,7 @@ stack* makeStack() {
 /// Delete Stack
 void deleteStack(stack* stk) {
     while(stk->size)
-        stackPop(stk);
+        popStack(stk);
     free(stk);
 
     return;
@@ -49,24 +50,24 @@ void deleteStack(stack* stk) {
 
 /// Element access
 // top
-int stackTop(stack const * const stk) {
+int topStack(stack const * const stk) {
     return stk->topElement->data;
 }
 
 /// Capacity
 // empty
-int stackEmpty(stack const * const stk) {
+int emptyStack(stack const * const stk) {
     return stk->size == 0 ? 1 : 0;
 }
 
 // size
-int stackSize(stack const * const stk) {
+int sizeStack(stack const * const stk) {
     return stk->size;
 }
 
 /// Modifiers
 // push
-void stackPush(stack * const stk, int const value) {
+void pushStack(stack * const stk, int const value) {
     stackElement* newElement = (stackElement*)malloc(sizeof(stackElement));
     newElement->data = value;
     newElement->prevElement = stk->topElement;
@@ -77,7 +78,7 @@ void stackPush(stack * const stk, int const value) {
 }
 
 // pop
-void stackPop(stack * const stk) {
+void popStack(stack * const stk) {
     if(!stk->size)  return;
     stackElement* temp = stk->topElement;
     stk->topElement = stk->topElement->prevElement;
@@ -88,10 +89,10 @@ void stackPop(stack * const stk) {
 }
 
 // swap (C++11)
-void stackSwap(stack const ** pStk1, stack const ** pStk2) {
-    stack* temp = *pStk1;
-    *pStk1 = *pStk2;
-    *pStk2 = temp;
+void swapStack(stack const ** pStk_1, stack const ** pStk_2) {
+    stack* temp = *pStk_1;
+    *pStk_1 = *pStk_2;
+    *pStk_2 = temp;
 
     return;
 }
